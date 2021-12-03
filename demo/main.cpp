@@ -1,5 +1,8 @@
-#include <example.hpp>
+#include <cache.hpp>
 
 int main() {
-  example();
+  CacheDiagnostics cd;
+
+  cd.full_diagnostics();
+  cd.formatting_output();
 }
