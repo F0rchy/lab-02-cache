@@ -5,25 +5,26 @@
 
 #include <algorithm>
 #include <chrono>
-#include <ctime>
 #include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <random>
 #include <stdexcept>
 #include <vector>
 
 struct Statistics {
-    int experimentNumber_front;
-    int experimentNumber_reverse;
-    int experimentNumber_random;
-    int bufferSize;
-    double duration_front;
-    double duration_reverse;
-    double duration_random;
+  int experimentNumber_front;
+  int experimentNumber_reverse;
+  int experimentNumber_random;
+  int bufferSize;
+  double duration_front;
+  double duration_reverse;
+  double duration_random;
 };
 
 class CacheDiagnostics {
  private:
+  unsigned int seed;
   int read_value;
   int sizes[5];
   Statistics statistics[5];
@@ -31,6 +32,7 @@ class CacheDiagnostics {
   unsigned int timer;
   int last_size;
   void create_array(int num_size);
+
  public:
   CacheDiagnostics();
   void front_diagnostics(int num_size);
@@ -49,4 +51,4 @@ class CacheDiagnostics {
  * 256 KB < 512 KB < 4096 KB < 8192 KB < 12288 KB
  */
 
-#endif // INCLUDE_CACHE_HPP_
+#endif  // INCLUDE_CACHE_HPP_
