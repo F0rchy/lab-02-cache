@@ -27,19 +27,20 @@ class CacheDiagnostics {
   unsigned int seed;
   int read_value;
   int sizes[5];
-  Statistics statistics[5];
   int *arr;
   unsigned int timer;
   int last_size;
   void create_array(int num_size);
 
  public:
+  Statistics statistics[5];
   CacheDiagnostics();
   void front_diagnostics(int num_size);
   void reverse_diagnostics(int num_size);
   void random_diagnostics(int num_size);
   void formatting_output();
   void full_diagnostics();
+  ~CacheDiagnostics();
 };
 
 /* AMD Ryzen 7 5700U

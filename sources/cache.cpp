@@ -151,3 +151,4 @@ void CacheDiagnostics::full_diagnostics() {
     random_diagnostics(i);
   }
 }
+CacheDiagnostics::~CacheDiagnostics() { delete[] arr; }
