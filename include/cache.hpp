@@ -28,8 +28,6 @@ class CacheDiagnostics {
   int read_value;
   int sizes[5];
   int *arr;
-  unsigned int timer;
-  int last_size;
   void create_array(int num_size);
 
  public:

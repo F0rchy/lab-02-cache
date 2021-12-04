@@ -5,7 +5,7 @@
 #include <cache.hpp>
 #include <stdexcept>
 
-TEST(Example, frontTest) {
+TEST(Cache, frontTest) {
   CacheDiagnostics cd;
   cd.front_diagnostics(0);
   double time = cd.statistics[0].duration_front;
@@ -27,9 +27,20 @@ TEST(Cache, randomTest) {
   }
 }
 
+TEST(Cache, reverseTest) {
+  CacheDiagnostics cd;
+  cd.reverse_diagnostics(0);
+  double time = cd.statistics[0].duration_reverse;
+  if (time == 0.0) {
+    FAIL();
+  } else {
+    SUCCEED();
+  }
+}
+
 TEST(Cache, fullDiagnosticsTest) {
   CacheDiagnostics cd;
-  cd.random_diagnostics(4);
+  cd.full_diagnostics();
   double time = cd.statistics[4].duration_random;
   if (time == 0.0) {
     FAIL();
