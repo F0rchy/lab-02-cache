@@ -27,7 +27,7 @@ class CacheDiagnostics {
   unsigned int seed;
   int read_value;
   int sizes[5];
-  int *arr;
+  int* arr;
   void create_array(int num_size);
 
  public:

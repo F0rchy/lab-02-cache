@@ -24,6 +24,7 @@ CacheDiagnostics::CacheDiagnostics() {
   statistics[3].bufferSize = sizes[3];
   statistics[4].bufferSize = sizes[4];
 }
+
 void CacheDiagnostics::create_array(int num_size) {
   arr = new int[sizes[num_size]];
   for (int i = 0; i < sizes[num_size]; i++) {
@@ -33,11 +34,9 @@ void CacheDiagnostics::create_array(int num_size) {
 
 void CacheDiagnostics::front_diagnostics(int num_size) {
   create_array(num_size);
-  //  ПРОГРЕВ
   for (int i = 0; i < sizes[num_size]; i += 16) {
     read_value = arr[i];
   }
-  // ЧТЕНИЕ + ПОДСЧЕТ ВРЕМЕНИ
   auto start = static_cast<double>(clock());
 
   for (int i = 0; i < 1000; i++) {
@@ -49,31 +48,30 @@ void CacheDiagnostics::front_diagnostics(int num_size) {
   auto end = static_cast<double>(clock());
   statistics[num_size].duration_front = ((end - start) / CLOCKS_PER_SEC) * 1000;
   statistics[num_size].experimentNumber_front = num_size + 1;
+  delete[] arr;
 }
 
 void CacheDiagnostics::reverse_diagnostics(int num_size) {
   create_array(num_size);
-  //  ПРОГРЕВ
   for (int i = 0; i < sizes[num_size]; i += 16) {
     read_value = arr[i];
   }
-  // ЧТЕНИЕ + ПОДСЧЕТ ВРЕМЕНИ
   auto start = static_cast<double>(clock());
 
   for (int i = 0; i < 1000; i++) {
-    for (int j = sizes[num_size]; j > 0; j -= 16) {
-      read_value = arr[j];
+    for (int j = 0; j < sizes[num_size] - 1; j += 16) {
+      read_value = arr[sizes[num_size] - j - 1];
     }
   }
   auto end = static_cast<double>(clock());
   statistics[num_size].duration_reverse =
       ((end - start) / CLOCKS_PER_SEC) * 1000;
   statistics[num_size].experimentNumber_reverse = num_size + 6;
+  delete[] arr;
 }
 
 void CacheDiagnostics::random_diagnostics(int num_size) {
   create_array(num_size);
-  //  ПРОГРЕВ
   for (int i = 0; i < sizes[num_size]; i += 16) {
     read_value = arr[i];
   }
@@ -82,7 +80,6 @@ void CacheDiagnostics::random_diagnostics(int num_size) {
     ins.push_back(i);
   }
   std::random_shuffle(ins.begin(), ins.end());
-  // ЧТЕНИЕ + ПОДСЧЕТ ВРЕМЕНИ
   auto start = static_cast<double>(clock());
 
   for (int i = 0; i < 1000; i++) {
@@ -94,6 +91,7 @@ void CacheDiagnostics::random_diagnostics(int num_size) {
   statistics[num_size].duration_random =
       ((end - start) / CLOCKS_PER_SEC) * 1000;
   statistics[num_size].experimentNumber_random = num_size + 11;
+  delete[] arr;
 }
 void CacheDiagnostics::formatting_output() {
   std::cout << "  investigaion:\n"
@@ -151,4 +149,7 @@ void CacheDiagnostics::full_diagnostics() {
     random_diagnostics(i);
   }
 }
-CacheDiagnostics::~CacheDiagnostics() { delete[] arr; }
+
+CacheDiagnostics::~CacheDiagnostics() {
+  //  delete[] arr;
+}
